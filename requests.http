@@ -1,0 +1,25 @@
+### Criar conta
+POST http://localhost:8080/accounts
+Content-Type: application/json
+
+{ "ownerName": "Alice", "currency": "BRL" }
+
+### Depósito (troque o id)
+POST http://localhost:8080/accounts/{{accountId}}/deposits
+Content-Type: application/json
+Idempotency-Key: {{$random.uuid}}
+
+{ "amount": 10000, "description": "Salário" }
+
+### Transferência
+POST http://localhost:8080/transfers
+Content-Type: application/json
+Idempotency-Key: {{$random.uuid}}
+
+{ "fromAccountId": "{{accountId}}", "toAccountId": "{{otherAccountId}}", "amount": 2550 }
+
+### Extrato
+GET http://localhost:8080/accounts/{{accountId}}/entries?limit=20
+
+### Balancete
+GET http://localhost:8080/audit/trial-balance
